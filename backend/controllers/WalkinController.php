@@ -55,22 +55,22 @@ class WalkinController extends Controller
     //     return $this->render('index', [
     //         'dataProvider' => $dataProvider,
     //     ]);
-    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    $walkin_id=Yii::$app->getRequest()->getQueryParam('id');
-    if($walkin_id!=NULL){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $walkin_id=Yii::$app->getRequest()->getQueryParam('id');
-    $query = (new \yii\db\Query())
-    ->select(['*'])
-    ->from('walkin')->one();
-    return $query;
-    }
-    else{
-    
-    $query = (new \yii\db\Query())
-    ->select(['*'])
-    ->from('walkin')->all();
-    return $query;
-    }
+        if($walkin_id!=NULL){
+            $walkin_id=Yii::$app->getRequest()->getQueryParam('id');
+        $query = (new \yii\db\Query())
+        ->select(['*'])
+        ->from('walkin')
+        ->where(['walkin_id' => $walkin_id])->one();
+        return $query;
+        }
+        else{
+        $query = (new \yii\db\Query())
+        ->select(['*'])
+        ->from('walkin')->all();
+        return $query;
+        }
     
     }
 
