@@ -1,6 +1,6 @@
 <h1>
 applicant login api :http://backend.test/login
-<h1>
+</h1>
 <h1>
     create user api : http://backend.test/applicant/create
 </h1>
