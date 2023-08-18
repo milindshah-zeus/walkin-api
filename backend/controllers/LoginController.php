@@ -36,7 +36,7 @@ class LoginController extends Controller{
         $pass= $post['password'];
         
         $query = (new \yii\db\Query())
-        ->select(['email'])
+        ->select(['first_name','last_name'])
         ->from('applicant')
         ->where(['email'=>$email,'user_password' => $pass])->one();
         return $query;

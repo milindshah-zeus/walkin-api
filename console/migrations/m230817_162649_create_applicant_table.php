@@ -45,6 +45,7 @@ class m230817_162649_create_applicant_table extends Migration
             'date_modified' => $this->date(),
         ]);
         $this->addPrimaryKey(name:'PK_applicant_applicant_id',table:'{{%applicant}}',columns:'applicant_id');
+        $this->alterColumn('{{%applicant}}', 'applicant_id', $this->Integer().' NOT NULL AUTO_INCREMENT');
     }
 
     
