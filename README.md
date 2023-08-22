@@ -8,9 +8,20 @@ applicant login api :http://backend.test/login
     fetch all walkins api : http://backend.test/walkin
 </h1>
 <h1>
-    fetch specific walkin api : http://backend.test/walkin?id=1    //for id=1
+    fetch specific walkin api : http://backend.test/walkin?id=1    //for walkin_id=1
 </h1>
-
+<h1>
+    fetch walkin Job roles api : http://backend.test/walkin-role?id=2    //for walkin_id=2
+</h1>
+<h1>
+    create application api : http://backend.test/application/create    
+</h1>
+<h1>
+    fetch hallticket details api : http://backend.test/hall-ticket?id=3    //for hallticket_id=3
+</h1>
+<h1>
+    fetch application job preferences api : http://backend.test/application-preferences?id=3    //for hallticket_id=3
+</h1>
 
 
 
