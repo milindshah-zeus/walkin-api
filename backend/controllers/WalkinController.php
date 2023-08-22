@@ -35,43 +35,41 @@ class WalkinController extends Controller
     /**
      * Lists all Walkin models.
      *
-     * @return string
+     * @return json
      */
     public function actionIndex()
     {
-    //     $dataProvider = new ActiveDataProvider([
-    //         'query' => Walkin::find(),
-    //         /*
-    //         'pagination' => [
-    //             'pageSize' => 50
-    //         ],
-    //         'sort' => [
-    //             'defaultOrder' => [
-    //                 'walkin_id' => SORT_DESC,
-    //             ]
-    //         ],
-    //         */
-    //     ]);
-    //     return $this->render('index', [
-    //         'dataProvider' => $dataProvider,
-    //     ]);
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $walkin_id=Yii::$app->getRequest()->getQueryParam('id');
+        $connection = Yii::$app->getDb();
+        $walkin_id = Yii::$app->getRequest()->getQueryParam('id');
         if($walkin_id!=NULL){
-            $walkin_id=Yii::$app->getRequest()->getQueryParam('id');
-        $query = (new \yii\db\Query())
-        ->select(['*'])
-        ->from('walkin')
-        ->where(['walkin_id' => $walkin_id])->one();
-        return $query;
+            $command = $connection->createCommand('
+            select walkin.*,
+            GROUP_CONCAT(job_role.role_name) as "roles", 
+            GROUP_CONCAT( walkin_slots.start_time ) AS start_time,
+            GROUP_CONCAT( walkin_slots.end_time ) AS end_time 
+            FROM walkin JOIN walkin_role 
+            ON walkin.walkin_id=walkin_role.walkin_id JOIN job_role
+            ON job_role.role_id=walkin_role.role_id JOIN walkin_slots
+            ON walkin_slots.walkin_id=walkin.walkin_id
+            WHERE walkin.walkin_id= :walkin_id
+            GROUP BY walkin.walkin_id;',
+            [':walkin_id' => $walkin_id]);
+            return $command->queryOne();
         }
         else{
-        $query = (new \yii\db\Query())
-        ->select(['*'])
-        ->from('walkin')->all();
-        return $query;
-        }
-    
+            $command = $connection->createCommand('
+            select walkin.*,
+            GROUP_CONCAT(job_role.role_name) as "roles", 
+            GROUP_CONCAT( walkin_slots.start_time ) AS start_time,
+            GROUP_CONCAT( walkin_slots.end_time ) AS end_time 
+            FROM walkin JOIN walkin_role 
+            ON walkin.walkin_id=walkin_role.walkin_id JOIN job_role
+            ON job_role.role_id=walkin_role.role_id JOIN walkin_slots
+            ON walkin_slots.walkin_id=walkin.walkin_id
+            GROUP BY walkin.walkin_id;');
+            return $command->queryAll();
+       }
     }
 
     /**
